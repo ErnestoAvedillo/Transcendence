@@ -27,3 +27,4 @@ frontend/.env
 usermanagement/profile_pictures/*
 !usermanagement/profile_pictures/*.*
 .exec_run_npm
+.migration_done

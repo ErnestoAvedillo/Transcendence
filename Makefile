@@ -119,6 +119,8 @@ compile: ./frontend/package-lock.json
 
 copy_env:
 	@cp .env ./frontend/.env
+	@echo modifying .env ${IP_ADDR}
+	@sed -i "s/^INT_IP_ADDR=changeme/IP_ADDR=${IP_ADDR}/" ./frontend/.env
 	
 del_vol:rm_vol
 	@echo Deleting Volumes DIR

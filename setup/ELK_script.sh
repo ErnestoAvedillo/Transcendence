@@ -32,8 +32,6 @@ until curl --max-time 600 -s -u "elastic:${ELASTIC_PASSWORD}" --cacert config/ce
     sleep 1
 done
 
-
-
 until curl --max-time 600 -s -u "elastic:${ELASTIC_PASSWORD}" --cacert config/certs/ca/ca.crt -X PUT "https://es01:9200/_index_template/gateway_template" \
     -H "Content-Type: application/json" \
     -d '{
@@ -75,6 +73,54 @@ until curl --max-time 600 -s -u "elastic:${ELASTIC_PASSWORD}" --cacert config/ce
         }
     }
     }' | grep -q '"acknowledged":true'; do
+    echo "Waiting for acknowledged:true..."
+    sleep 1
+done
+
+until curl --max-time 600 -s -u "elastic:${ELASTIC_PASSWORD}" --cacert config/certs/ca/ca.crt -X POST "https://es01:9200/_aliases" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "actions": [
+            {
+              "add": {
+                "index": "gate*",
+                "alias": "gateway"
+              }
+            }
+          ]
+        }'| grep -q '"acknowledged":true'; do
+    echo "Waiting for acknowledged:true..."
+    sleep 1
+done
+
+until curl --max-time 600 -s -u "elastic:${ELASTIC_PASSWORD}" --cacert config/certs/ca/ca.crt -X POST "https://es01:9200/_aliases" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "actions": [
+            {
+              "add": {
+                "index": "tour*",
+                "alias": "tournaments"
+              }
+            }
+          ]
+        }'| grep -q '"acknowledged":true'; do
+    echo "Waiting for acknowledged:true..."
+    sleep 1
+done
+
+until curl --max-time 600 -s -u "elastic:${ELASTIC_PASSWORD}" --cacert config/certs/ca/ca.crt -X POST "https://es01:9200/_aliases" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "actions": [
+            {
+              "add": {
+                "index": "user*",
+                "alias": "usermanagement"
+              }
+            }
+          ]
+        }'| grep -q '"acknowledged":true'; do
     echo "Waiting for acknowledged:true..."
     sleep 1
 done

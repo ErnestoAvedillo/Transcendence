@@ -22,14 +22,14 @@
                   this.userId).length }}
               </h4>
               <h4 v-else>
-                {{ $t('game_stats.no_win')}}
+                No win matches found
               </h4>
               <h4 v-if="this.matchList.length">
                 {{ $t('game_stats.losses') }}: {{ this.matchList.filter(match => match.winner_id_id !==
                   this.userId).length }}
               </h4>
               <h4 v-else>
-                {{ $t('game_stats.no_lost')}} 
+                No lost matches found
               </h4>
             </div>
           </div>
@@ -63,7 +63,7 @@
                 </button>
               </div>
               <div v-else>
-                {{ $t('game_stats.no_found') }}
+                No matches found
               </div>
             </div>
           </div>
